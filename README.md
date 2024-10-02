@@ -1,3 +1,3 @@
 # Burger
 
-Proyecto de prueba.
+Test project.
