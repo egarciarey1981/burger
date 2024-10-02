@@ -6,6 +6,7 @@ use Burger\Catalog\Domain\Model\Product\Product;
 use Burger\Catalog\Domain\Model\Product\ProductCategory;
 use Burger\Catalog\Domain\Model\Product\ProductId;
 use Burger\Catalog\Domain\Model\Product\ProductName;
+use Burger\Catalog\Domain\Model\Product\ProductNotFoundException;
 use Burger\Catalog\Domain\Model\Product\ProductRepository;
 
 class InMemoryProductRepository implements ProductRepository
@@ -26,17 +27,15 @@ class InMemoryProductRepository implements ProductRepository
         return $this->products;
     }
 
-    public function find(string $filter, int $page, int $limit): array
+    public function ofProductId(ProductId $productId): Product
     {
-        $products = [];
-
         foreach ($this->products as $product) {
-            if (stripos($product->name()->value(), $filter) !== false) {
-                $products[] = $product;
+            if ($product->id()->equals($productId)) {
+                return $product;
             }
         }
-     
-        return array_slice($products, ($page - 1) * $limit, $limit);
+
+        throw new ProductNotFoundException('Product of id `' . $productId->value() . '` not found');
     }
 
     private function initialize(): void

@@ -6,7 +6,7 @@ use Burger\Catalog\Application\Action\Action;
 use Burger\Catalog\Application\Service\Product\ListProductByCategoryService;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ListProductByCategoryAction extends Action
+class ListProductsByCategoryAction extends Action
 {
     private ListProductByCategoryService $listProductByCategoryService;
 
@@ -21,6 +21,6 @@ class ListProductByCategoryAction extends Action
 
         $data['categories'] = $listProductByCategoryResponse->categories();
 
-        return $this->respondWithJson(200, $data);
+        return $this->respondWithJson($data);
     }
 }

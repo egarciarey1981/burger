@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-use Burger\Catalog\Application\Action\Product\ListProductByCategoryAction;
+use Burger\Catalog\Application\Action\Product\ListProductsByCategoryAction;
+use Burger\Catalog\Application\Action\Product\ViewProductAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
@@ -21,7 +22,8 @@ return function (App $app) {
 
     $app->group('/catalog', function (Group $group) {
         $group->group('/product', function (Group $group) {
-            $group->get('/category', ListProductByCategoryAction::class);
+            $group->get('/category', ListProductsByCategoryAction::class);
+            $group->get('/{id}', ViewProductAction::class);
         });
     });
 };

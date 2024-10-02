@@ -15,4 +15,9 @@ class ProductId
     {
         return $this->value;
     }
+
+    public function equals(ProductId $productId): bool
+    {
+        return $this->value() === $productId->value();
+    }
 }

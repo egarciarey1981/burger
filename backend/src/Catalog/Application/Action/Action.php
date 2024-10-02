@@ -2,6 +2,7 @@
 
 namespace Burger\Catalog\Application\Action;
 
+use Burger\Shared\Domain\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -15,12 +16,18 @@ abstract class Action
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        
+
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
 
-        return $this->action();
+        try {
+            return $this->action();
+        } catch (NotFoundException $e) {
+            return $this->respondWithJson(['error' => $e->getMessage()], 404);
+        }
+        
+        return $this->respondWithJson([], 500);
     }
 
     protected function queryParam(string $name)
@@ -32,8 +39,8 @@ abstract class Action
     {
         return $this->response->withStatus($statusCode);
     }
-    
-    protected function respondWithJson(int $statusCode, $data): Response
+
+    protected function respondWithJson(array $data, int $statusCode = 200): Response
     {
         $this->response->getBody()->write(json_encode($data));
         return $this->response
