@@ -1,2 +1,0 @@
-# burger
-Proyecto de prueba
