@@ -7,25 +7,25 @@ use Burger\Catalog\Domain\Model\Product\ProductRepository;
 
 class ViewProductService
 {
-    private ProductRepository $productRepository;
+    private ProductRepository $repository;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $repository)
     {
-        $this->productRepository = $productRepository;
+        $this->repository = $repository;
     }
 
     public function execute(ViewProductRequest $request): ViewProductResponse
     {
-        $productObject = $this->productRepository->ofProductId(
+        $product = $this->repository->ofProductId(
             new ProductId($request->id())
         );
 
-        $productArray = [
-            'id' => $productObject->id()->value(),
-            'name' => $productObject->name()->value(),
-            'category' => $productObject->category()->value(),
+        $product = [
+            'id' => $product->id()->value(),
+            'name' => $product->name()->value(),
+            'category' => $product->category()->value(),
         ];
 
-        return new ViewProductResponse($productArray);
+        return new ViewProductResponse($product);
     }
 }

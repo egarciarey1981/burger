@@ -9,20 +9,20 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class ViewProductAction extends Action
 {
-    private ViewProductService $viewProductService;
+    private ViewProductService $service;
 
-    public function __construct(ViewProductService $viewProductService)
+    public function __construct(ViewProductService $service)
     {
-        $this->viewProductService = $viewProductService;
+        $this->service = $service;
     }
 
     public function action(): Response
     {
-        $viewProductRespone = $this->viewProductService->execute(
+        $response = $this->service->execute(
             new ViewProductRequest($this->args['id'])
         );
 
-        $data['product'] = $viewProductRespone->product();
+        $data['product'] = $response->product();
 
         return $this->respondWithJson($data);
     }
