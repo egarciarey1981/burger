@@ -4,7 +4,6 @@ namespace Burger\Catalog\Infrastructure\Persistence\InMemory;
 
 use Burger\Catalog\Domain\Model\Image\Image;
 use Burger\Catalog\Domain\Model\Image\ImageId;
-use Burger\Catalog\Domain\Model\Image\ImageNotFoundException;
 use Burger\Catalog\Domain\Model\Image\ImageUrl;
 use Burger\Catalog\Domain\Model\Image\ImageRepository;
 use Burger\Catalog\Domain\Model\Image\ImageTitle;
@@ -13,26 +12,16 @@ class InMemoryImageRepository implements ImageRepository
 {
     private array $images = [];
 
-    public function __construct()
+    public function __construct($images = [])
     {
-        $this->images[] = new Image(
-            new ImageId('burgers'),
-            new ImageTitle('Burgers'),
-            new ImageUrl('https://cdn.auth0.com/blog/whatabyte/burger-sm.png'),
-        );
-        $this->images[] = new Image(
-            new ImageId('drinks'),
-            new ImageTitle('Drinks'),
-            new ImageUrl('https://cdn.auth0.com/blog/whatabyte/drinks-sm.png'),
-        );
-        $this->images[] = new Image(
-            new ImageId('starters'),
-            new ImageTitle('Starters'),
-            new ImageUrl('https://cdn.auth0.com/blog/whatabyte/starters-sm.png'),
-        );
+        if (empty($images)) {
+            $this->initialize();
+        } else {
+            $this->images = $images;
+        }
     }
 
-    public function ofImageId(ImageId $imageId): Image
+    public function ofImageId(ImageId $imageId): ?Image
     {
         foreach ($this->images as $image) {
             if ($image->id()->equals($imageId)) {
@@ -40,6 +29,40 @@ class InMemoryImageRepository implements ImageRepository
             }
         }
 
-        throw new ImageNotFoundException('Image of id `' . $imageId->value() . '` not found');
+        return null;
+    }
+
+    private function initialize(): void
+    {
+        $data = [
+            [
+                'id' => 'burgers',
+                'title' => 'Burgers',
+                'url' => 'https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246__480.jpg',
+            ],
+            [
+                'id' => 'burger',
+                'title' => 'Burger',
+                'url' => 'https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246__480.jpg',
+            ],
+            [
+                'id' => 'cheeseburger',
+                'title' => 'Cheeseburger',
+                'url' => 'https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246__480.jpg',
+            ],
+            [
+                'id' => 'starters',
+                'title' => 'Starters',
+                'url' => 'https://cdn.pixabay.com/photo/2016/11/18/17/20/bar-snacks-1836310__480.jpg',
+            ],
+        ];
+
+        foreach ($data as $image) {
+            $this->images[] = new Image(
+                new ImageId($image['id']),
+                new ImageTitle($image['title']),
+                new ImageUrl($image['url']),
+            );
+        }
     }
 }

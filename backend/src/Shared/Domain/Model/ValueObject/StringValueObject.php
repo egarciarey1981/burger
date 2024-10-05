@@ -12,9 +12,9 @@ abstract class StringValueObject
         $this->value = $value;
     }
 
-    abstract protected function assert(mixed $value): void;
+    abstract protected function assert(string $value): void;
 
-    public function value(): mixed
+    public function value(): string
     {
         return $this->value;
     }

@@ -4,11 +4,11 @@ namespace Burger\Catalog\Infrastructure\Persistence\InMemory;
 
 use Burger\Catalog\Domain\Model\Category\Category;
 use Burger\Catalog\Domain\Model\Category\CategoryId;
-use Burger\Catalog\Domain\Model\Category\CategoryImageUrl;
 use Burger\Catalog\Domain\Model\Category\CategoryName;
 use Burger\Catalog\Domain\Model\Category\CategoryNotFoundException;
 use Burger\Catalog\Domain\Model\Category\CategoryRepository;
 use Burger\Catalog\Domain\Model\Image\ImageId;
+use Burger\Catalog\Domain\Model\Image\ImageNotFoundException;
 use Burger\Catalog\Domain\Model\Image\ImageRepository;
 
 class InMemoryCategoryRepository implements CategoryRepository
@@ -42,7 +42,7 @@ class InMemoryCategoryRepository implements CategoryRepository
             }
         }
 
-        throw new CategoryNotFoundException('Category of id `' . $CategoryId->value() . '` not found');
+        return null;
     }
 
     private function initialize(): void
@@ -54,12 +54,16 @@ class InMemoryCategoryRepository implements CategoryRepository
         ];
 
         foreach ($data as $item) {
-            $image = $this->imageRepository->ofImageId(new ImageId($item[3]));
+            try {
+                $image = $this->imageRepository->ofImageId(new ImageId($item[3]));
+            } catch (ImageNotFoundException $e) {
+                $image = null;
+            }
 
             $this->Categories[] = new Category(
                 new CategoryId($item[0]),
                 new CategoryName($item[1]),
-                $image,            
+                $image,
             );
         }
     }

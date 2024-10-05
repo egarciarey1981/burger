@@ -8,12 +8,12 @@ class Category
 {
     private CategoryId $id;
     private CategoryName $name;
-    private Image $image;
+    private ?Image $image;
 
     public function __construct(
         CategoryId $id,
         CategoryName $name,
-        Image $image,
+        ?Image $image,
     )
     {
         $this->id = $id;
@@ -31,7 +31,7 @@ class Category
         return $this->name;
     }
 
-    public function image(): Image
+    public function image(): ?Image
     {
         return $this->image;
     }
@@ -41,7 +41,7 @@ class Category
         return [
             'id' => (string) $this->id,
             'name' => (string) $this->name,
-            'image' => $this->image->toArray(),
+            'image' => $this->image?->toArray() ?? null,
         ];
     }
 }

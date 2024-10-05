@@ -2,22 +2,12 @@
 
 namespace Burger\Catalog\Domain\Model\Product;
 
-class ProductDescription
+use Burger\Shared\Domain\Model\ValueObject\StringValueObject;
+use InvalidArgumentException;
+
+class ProductDescription extends StringValueObject
 {
-    private string $value;
-
-    public function __construct(string $value)
+    protected function assert(string $value): void
     {
-        $this->value = $value;
-    }
-
-    public function value(): string
-    {
-        return $this->value;
-    }
-
-    public function __toString(): string
-    {
-        return $this->value;
     }
 }

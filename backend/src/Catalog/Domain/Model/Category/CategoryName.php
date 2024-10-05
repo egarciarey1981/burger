@@ -2,22 +2,11 @@
 
 namespace Burger\Catalog\Domain\Model\Category;
 
-class CategoryName
+use Burger\Shared\Domain\Model\ValueObject\StringValueObject;
+
+class CategoryName extends StringValueObject
 {
-    private string $value;
-
-    public function __construct(string $value)
+    public function assert(string $value): void
     {
-        $this->value = $value;
-    }
-
-    public function value(): string
-    {
-        return $this->value;
-    }
-
-    public function __toString(): string
-    {
-        return $this->value;
     }
 }

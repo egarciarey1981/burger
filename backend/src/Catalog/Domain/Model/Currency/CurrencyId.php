@@ -2,27 +2,11 @@
 
 namespace Burger\Catalog\Domain\Model\Currency;
 
-class CurrencyId
+use Burger\Shared\Domain\Model\ValueObject\StringValueObject;
+
+class CurrencyId extends StringValueObject
 {
-    private string $value;
-
-    public function __construct(string $value)
+    public function assert(string $value): void
     {
-        $this->value = $value;
-    }
-
-    public function value(): string
-    {
-        return $this->value;
-    }
-
-    public function __toString(): string
-    {
-        return $this->value();
-    }
-
-    public function equals(CurrencyId $CurrencyId): bool
-    {
-        return $this->value() === $CurrencyId->value();
     }
 }

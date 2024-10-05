@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class ImageId extends StringValueObject
 {
-    protected function assert(mixed $value): void
+    protected function assert(string $value): void
     {
         if (empty($value)) {
             throw new InvalidArgumentException('ImageId is required');

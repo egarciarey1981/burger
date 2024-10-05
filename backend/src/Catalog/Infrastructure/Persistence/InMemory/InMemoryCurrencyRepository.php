@@ -35,7 +35,7 @@ class InMemoryCurrencyRepository implements CurrencyRepository
             }
         }
 
-        throw new CurrencyNotFoundException('Currency of id `' . $currencyId->value() . '` not found');
+        return null;
     }
 
     private function initialize(): void
