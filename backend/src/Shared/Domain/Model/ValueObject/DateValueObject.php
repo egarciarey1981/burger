@@ -26,7 +26,7 @@ abstract class DateValueObject
         return $this->value()->format('Y-m-d');
     }
 
-    public function equals(StringValueObject $valueObject): bool
+    public function equals(DateValueObject $valueObject): bool
     {
         return $this->value() === $valueObject->value();
     }

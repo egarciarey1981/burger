@@ -19,7 +19,7 @@ abstract class IntValueObject
         return $this->value;
     }
 
-    public function equals(StringValueObject $valueObject): bool
+    public function equals(IntValueObject $valueObject): bool
     {
         return $this->value() === $valueObject->value();
     }

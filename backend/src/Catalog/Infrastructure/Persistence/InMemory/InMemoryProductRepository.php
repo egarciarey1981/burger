@@ -2,6 +2,9 @@
 
 namespace Burger\Catalog\Infrastructure\Persistence\InMemory;
 
+use Burger\Catalog\Domain\Model\Price\Price;
+use Burger\Catalog\Domain\Model\Price\PriceAmount;
+use Burger\Catalog\Domain\Model\Price\PriceCurrency;
 use Burger\Catalog\Domain\Model\Product\Product;
 use Burger\Catalog\Domain\Model\Product\ProductCategory;
 use Burger\Catalog\Domain\Model\Product\ProductId;
@@ -44,41 +47,73 @@ class InMemoryProductRepository implements ProductRepository
                 'id' => 'burger',
                 'name' => 'Burger',
                 'category' => 'Burgers',
+                'price' => [
+                    'amount' => 5.0,
+                    'currency' => 'USD',
+                ],
             ],
             [
                 'id' => 'cheeseburger',
                 'name' => 'Cheeseburger',
                 'category' => 'Burgers',
+                'price' => [
+                    'amount' => 6.0,
+                    'currency' => 'USD',
+                ],
             ],
             [
                 'id' => 'chiken-burger',
                 'name' => 'Chiken Burger',
                 'category' => 'Burgers',
+                'price' => [
+                    'amount' => 5.5,
+                    'currency' => 'USD',
+                ],
             ],
             [
                 'id' => 'fries',
                 'name' => 'Fries',
                 'category' => 'Starters',
+                'price' => [
+                    'amount' => 2.5,
+                    'currency' => 'USD',
+                ],
             ],
             [
                 'id' => 'onion-rings',
                 'name' => 'Onion Rings',
                 'category' => 'Starters',
+                'price' => [
+                    'amount' => 3.0,
+                    'currency' => 'USD',
+                ],
             ],
             [
                 'id' => 'beer',
                 'name' => 'Beer',
                 'category' => 'Drinks',
+                'price' => [
+                    'amount' => 4.0,
+                    'currency' => 'USD',
+                ],
             ],
             [
                 'id' => 'soft-drink',
                 'name' => 'Soft Drink',
                 'category' => 'Drinks',
+                'price' => [
+                    'amount' => 2.0,
+                    'currency' => 'USD',
+                ],
             ],
             [
                 'id' => 'water',
                 'name' => 'Water',
                 'category' => 'Drinks',
+                'price' => [
+                    'amount' => 1.0,
+                    'currency' => 'USD',
+                ],
             ],
         ];
 
@@ -87,6 +122,10 @@ class InMemoryProductRepository implements ProductRepository
                 new ProductId($item['id']),
                 new ProductName($item['name']),
                 new ProductCategory($item['category']),
+                new Price(
+                    new PriceAmount($item['price']['amount']),
+                    new PriceCurrency($item['price']['currency'])
+                ),
             );
         }
     }
