@@ -1,6 +1,6 @@
 <?php
 
-namespace Burger\Catalog\Application\Action;
+namespace Burger\Shared\Application\Action;
 
 use Burger\Shared\Domain\Model\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;

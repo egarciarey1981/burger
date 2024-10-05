@@ -2,9 +2,9 @@
 
 namespace Burger\Catalog\Application\Action\Product;
 
-use Burger\Catalog\Application\Action\Action;
 use Burger\Catalog\Application\Service\Product\ViewProductRequest;
 use Burger\Catalog\Application\Service\Product\ViewProductService;
+use Burger\Shared\Application\Action\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 

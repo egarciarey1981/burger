@@ -2,8 +2,8 @@
 
 namespace Burger\Catalog\Application\Action\Product;
 
-use Burger\Catalog\Application\Action\Action;
 use Burger\Catalog\Application\Service\Product\ListProductsService;
+use Burger\Shared\Application\Action\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
