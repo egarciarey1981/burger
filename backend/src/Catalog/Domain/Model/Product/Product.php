@@ -3,6 +3,7 @@
 namespace Burger\Catalog\Domain\Model\Product;
 
 use Burger\Catalog\Domain\Model\Category\Category;
+use Burger\Catalog\Domain\Model\Price\Price;
 use Burger\Catalog\Domain\Model\Product\ProductId;
 use Burger\Catalog\Domain\Model\Product\ProductName;
 
@@ -13,6 +14,7 @@ class Product
     private ProductDescription $description;
     private ProductImageUrl $imageUrl;
     private Category $category;
+    private Price $price;
 
     public function __construct(
         ProductId $id,
@@ -20,6 +22,7 @@ class Product
         ProductDescription $description,
         ProductImageUrl $imageUrl,
         Category $category,
+        Price $price
     )
     {
         $this->id = $id;
@@ -27,6 +30,7 @@ class Product
         $this->description = $description;
         $this->imageUrl = $imageUrl;
         $this->category = $category;
+        $this->price = $price;
     }
 
     public function id(): ProductId
@@ -54,6 +58,11 @@ class Product
         return $this->category;
     }
 
+    public function price(): Price
+    {
+        return $this->price;
+    }
+
     public function toArray(): array
     {
         return [
@@ -62,6 +71,7 @@ class Product
             'description' => (string) $this->description,
             'image_url' => (string) $this->imageUrl,
             'category' => $this->category->toArray(),
+            'price' => $this->price->toArray(),
         ];
     }
 }

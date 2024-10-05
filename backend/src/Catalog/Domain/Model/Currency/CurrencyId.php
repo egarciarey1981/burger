@@ -1,8 +1,8 @@
 <?php
 
-namespace Burger\Catalog\Domain\Model\Category;
+namespace Burger\Catalog\Domain\Model\Currency;
 
-class CategoryImageUrl
+class CurrencyId
 {
     private string $value;
 
@@ -18,6 +18,11 @@ class CategoryImageUrl
 
     public function __toString(): string
     {
-        return $this->value;
+        return $this->value();
+    }
+
+    public function equals(CurrencyId $CurrencyId): bool
+    {
+        return $this->value() === $CurrencyId->value();
     }
 }
