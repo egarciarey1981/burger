@@ -2,7 +2,7 @@
 
 namespace Burger\Catalog\Application\Action;
 
-use Burger\Shared\Domain\Exception\NotFoundException;
+use Burger\Shared\Domain\Model\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

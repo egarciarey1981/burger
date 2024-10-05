@@ -8,13 +8,20 @@ use Burger\Catalog\Domain\Model\Category\CategoryImageUrl;
 use Burger\Catalog\Domain\Model\Category\CategoryName;
 use Burger\Catalog\Domain\Model\Category\CategoryNotFoundException;
 use Burger\Catalog\Domain\Model\Category\CategoryRepository;
+use Burger\Catalog\Domain\Model\Image\ImageId;
+use Burger\Catalog\Domain\Model\Image\ImageRepository;
 
 class InMemoryCategoryRepository implements CategoryRepository
 {
+    private ImageRepository $imageRepository;
     private array $Categories = [];
 
-    public function __construct(array $Categories = [])
-    {
+    public function __construct(
+        ImageRepository $imageRepository,
+        array $Categories = [],
+    ) {
+        $this->imageRepository = $imageRepository;
+
         if (empty($Categories)) {
             $this->initialize();
         } else {
@@ -41,16 +48,18 @@ class InMemoryCategoryRepository implements CategoryRepository
     private function initialize(): void
     {
         $data = [
-            ['burgers', 'Burgers', 'burgers.png'],
-            ['starters', 'Starters', 'starters.png'],
-            ['drinks', 'Drinks', 'drinks.png'],
+            ['burgers', 'Burgers', 'burgers.png', 'burgers'],
+            ['starters', 'Starters', 'starters.png', 'starters'],
+            ['drinks', 'Drinks', 'drinks.png', 'drinks'],
         ];
 
         foreach ($data as $item) {
+            $image = $this->imageRepository->ofImageId(new ImageId($item[3]));
+
             $this->Categories[] = new Category(
                 new CategoryId($item[0]),
                 new CategoryName($item[1]),
-                new CategoryImageUrl($item[2]),
+                $image,            
             );
         }
     }

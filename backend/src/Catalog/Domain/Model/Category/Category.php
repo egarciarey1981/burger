@@ -2,17 +2,23 @@
 
 namespace Burger\Catalog\Domain\Model\Category;
 
+use Burger\Catalog\Domain\Model\Image\Image;
+
 class Category
 {
     private CategoryId $id;
     private CategoryName $name;
-    private CategoryImageUrl $imageUrl;
+    private Image $image;
 
-    public function __construct(CategoryId $id, CategoryName $name, CategoryImageUrl $imageUrl)
+    public function __construct(
+        CategoryId $id,
+        CategoryName $name,
+        Image $image,
+    )
     {
         $this->id = $id;
         $this->name = $name;
-        $this->imageUrl = $imageUrl;
+        $this->image = $image;
     }
 
     public function id(): CategoryId
@@ -25,9 +31,9 @@ class Category
         return $this->name;
     }
 
-    public function imageUrl(): CategoryImageUrl
+    public function image(): Image
     {
-        return $this->imageUrl;
+        return $this->image;
     }
 
     public function toArray(): array
@@ -35,7 +41,7 @@ class Category
         return [
             'id' => (string) $this->id,
             'name' => (string) $this->name,
-            'image_url' => (string) $this->imageUrl,
+            'image' => $this->image->toArray(),
         ];
     }
 }

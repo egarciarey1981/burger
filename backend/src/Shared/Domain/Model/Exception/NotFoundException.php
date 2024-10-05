@@ -1,10 +1,8 @@
 <?php
 
-namespace Burger\Shared\Domain\Exception;
+namespace Burger\Shared\Domain\Model\Exception;
 
-use Exception;
-
-abstract class DomainException extends Exception
+abstract class NotFoundException extends DomainException
 {
     public function __construct(string $message)
     {

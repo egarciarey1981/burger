@@ -2,7 +2,7 @@
 
 namespace Burger\Catalog\Domain\Model\Product;
 
-use Burger\Shared\Domain\Exception\NotFoundException;
+use Burger\Shared\Domain\Model\Exception\NotFoundException;
 
 class ProductNotFoundException extends NotFoundException
 {

@@ -2,7 +2,7 @@
 
 namespace Burger\Catalog\Domain\Model\Currency;
 
-use Burger\Shared\Domain\Exception\NotFoundException;
+use Burger\Shared\Domain\Model\Exception\NotFoundException;
 
 class CurrencyNotFoundException extends NotFoundException
 {
