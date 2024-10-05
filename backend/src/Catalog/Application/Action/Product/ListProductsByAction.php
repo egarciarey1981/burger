@@ -7,7 +7,7 @@ use Burger\Shared\Application\Action\Action;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
-class ListProductsAction extends Action
+class ListProductsByAction extends Action
 {
     private ListProductsService $listProductsService;
 
@@ -21,9 +21,19 @@ class ListProductsAction extends Action
 
     public function action(): Response
     {
-        $listProductsRequest = $this->listProductsService->execute();
+        $listProductsResponse = $this->listProductsService->execute();
 
-        $data['products'] = $listProductsRequest->products();
+        $products = $listProductsResponse->products();
+
+        $key = $this->args['key'];
+
+        $data = [];
+
+        foreach ($products as $product) {
+            $by = $product[$key];
+            unset($product[$key]);
+            $data[$by][] = $product;
+        }
 
         $this->logger->info('Products list was viewed');
 
