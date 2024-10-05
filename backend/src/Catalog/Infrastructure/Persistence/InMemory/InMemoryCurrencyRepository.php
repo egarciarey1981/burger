@@ -46,27 +46,27 @@ class InMemoryCurrencyRepository implements CurrencyRepository
     {
         $data = [
             [
-                'usd',
-                'USD',
-                '$%.2f',
+                'id' => 'usd',
+                'code' => 'USD',
+                'format' => '$%.2f',
             ],
             [
-                'eur',
-                'EUR',
-                '%.2f€',
+                'id' => 'eur',
+                'code' => 'EUR',
+                'format' => '€%.2f',
             ],
             [
-                'gbp',
-                'GBP',
-                '£%.2f',
+                'id' => 'gbp',
+                'code' => 'GBP',
+                'format' => '£%.2f',
             ],
         ];
 
         foreach ($data as $currency) {
             $this->currencies[] = new Currency(
-                new CurrencyId($currency[0]),
-                new CurrencyCode($currency[1]),
-                new CurrencyFormat($currency[2]),
+                new CurrencyId($currency['id']),
+                new CurrencyCode($currency['code']),
+                new CurrencyFormat($currency['format'])
             );
         }
     }
