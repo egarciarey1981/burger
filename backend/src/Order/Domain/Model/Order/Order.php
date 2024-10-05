@@ -32,15 +32,4 @@ class Order
     {
         return $this->orderLines;
     }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id->value(),
-            'date' => (string) $this->date,
-            'lines' => array_map(function ($line) {
-                return $line->toArray();
-            }, $this->orderLines),
-        ];
-    }
 }

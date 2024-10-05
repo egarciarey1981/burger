@@ -26,12 +26,4 @@ class OrderLine
     {
         return $this->quantity;
     }
-
-    public function toArray(): array
-    {
-        return [
-            'product' => (string)$this->product->name(),
-            'quantity' => $this->quantity->value(),
-        ];
-    }
 }

@@ -2,6 +2,8 @@
 
 namespace Burger\Catalog\Domain\Model\Price;
 
+use InvalidArgumentException;
+
 class Price
 {
     private PriceAmount $amount;
@@ -23,6 +25,26 @@ class Price
     public function currency(): PriceCurrency
     {
         return $this->currency;
+    }
+
+    public function multiply(int $quantity): self
+    {
+        return new self(
+            new PriceAmount($this->amount->value() * $quantity),
+            $this->currency
+        );
+    }
+
+    public function add(self $price): self
+    {
+        if (!$this->currency->equals($price->currency())) {
+            throw new InvalidArgumentException('Cannot add prices with different currencies');
+        }
+
+        return new self(
+            new PriceAmount($this->amount->value() + $price->amount()->value()),
+            $this->currency
+        );
     }
 
     public function toArray(): array

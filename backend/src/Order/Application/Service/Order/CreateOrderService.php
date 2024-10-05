@@ -19,8 +19,7 @@ class CreateOrderService extends OrderService
     public function __construct(
         OrderRepository $orderRepository,
         ProductRepository $productRepository,
-    )
-    {
+    ) {
         $this->productRepository = $productRepository;
         parent::__construct($orderRepository);
     }
@@ -35,7 +34,9 @@ class CreateOrderService extends OrderService
 
         $this->orderRepository->save($order);
 
-        return new CreateOrderResponse($order->toArray());
+        $order = $this->orderToArray($order);
+
+        return new CreateOrderResponse($order);
     }
 
     private function getOrderLines(array $lines): array
@@ -51,5 +52,36 @@ class CreateOrderService extends OrderService
 
             return new OrderLine($product, $quantity);
         }, $lines);
+    }
+
+    private function orderToArray(Order $order): array
+    {
+        $array = [
+            'id' => (string) $order->id(),
+            'date' => (string) $order->date(),
+        ];
+
+        $total = null;
+
+        foreach ($order->orderLines() as $line) {
+            $subtotal = $line->product()->price()->multiply($line->quantity()->value());
+
+            if (is_null($total)) {
+                $total = $subtotal;
+            } else {
+                $total = $total->add($subtotal);
+            }
+
+            $array['lines'][] = [
+                'product' => (string)$line->product()->name(),
+                'quantity' => $line->quantity()->value(),
+                'price' => $line->product()->price()->toArray(),
+                'subtotal' => $subtotal->toArray(),
+            ];
+        }
+
+        $array['total'] = $total->toArray();
+
+        return $array;
     }
 }
