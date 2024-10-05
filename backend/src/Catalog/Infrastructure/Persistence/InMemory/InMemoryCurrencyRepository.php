@@ -27,7 +27,7 @@ class InMemoryCurrencyRepository implements CurrencyRepository
         return $this->currencies;
     }
 
-    public function ofCurrencyId(CurrencyId $currencyId): Currency
+    public function ofCurrencyId(CurrencyId $currencyId): ?Currency
     {
         foreach ($this->currencies as $currency) {
             if ($currency->id()->equals($currencyId)) {

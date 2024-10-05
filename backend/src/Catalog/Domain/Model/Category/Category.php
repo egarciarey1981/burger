@@ -41,7 +41,7 @@ class Category
         return [
             'id' => (string) $this->id,
             'name' => (string) $this->name,
-            'image' => $this->image?->toArray() ?? null,
+            'image' => is_null($this->image) ? null : $this->image->toArray(),
         ];
     }
 }

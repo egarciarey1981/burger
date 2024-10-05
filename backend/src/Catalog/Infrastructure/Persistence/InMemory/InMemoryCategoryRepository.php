@@ -34,7 +34,7 @@ class InMemoryCategoryRepository implements CategoryRepository
         return $this->Categories;
     }
 
-    public function ofCategoryId(CategoryId $CategoryId): Category
+    public function ofCategoryId(CategoryId $CategoryId): ?Category
     {
         foreach ($this->Categories as $Category) {
             if ($Category->id()->equals($CategoryId)) {

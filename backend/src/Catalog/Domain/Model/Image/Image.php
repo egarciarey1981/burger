@@ -10,8 +10,8 @@ class Image
 
     public function __construct(
         ImageId $id,
-        ImageTitle $title,
         ImageUrl $url,
+        ?ImageTitle $title,
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -23,22 +23,22 @@ class Image
         return $this->id;
     }
 
-    public function title(): ImageTitle
-    {
-        return $this->title;
-    }
-
     public function url(): ImageUrl
     {
         return $this->url;
+    }
+
+    public function title(): ?ImageTitle
+    {
+        return $this->title;
     }
 
     public function toArray(): array
     {
         return [
             'id' => (string) $this->id,
-            'title' => (string) $this->title,
             'url' => (string) $this->url,
+            'title' => is_null($this->title) ? null : (string) $this->title,
         ];
     }
 }

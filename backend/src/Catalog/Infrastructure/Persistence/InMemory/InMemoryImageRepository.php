@@ -60,8 +60,8 @@ class InMemoryImageRepository implements ImageRepository
         foreach ($data as $image) {
             $this->images[] = new Image(
                 new ImageId($image['id']),
-                new ImageTitle($image['title']),
                 new ImageUrl($image['url']),
+                new ImageTitle($image['title']),
             );
         }
     }

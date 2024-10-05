@@ -46,7 +46,7 @@ class InMemoryProductRepository implements ProductRepository
         return $this->products;
     }
 
-    public function ofProductId(ProductId $productId): Product
+    public function ofProductId(ProductId $productId): ?Product
     {
         foreach ($this->products as $product) {
             if ($product->id()->equals($productId)) {
@@ -144,9 +144,9 @@ class InMemoryProductRepository implements ProductRepository
                 new ProductId($item[0]),
                 new ProductName($item[1]),
                 is_null($item[2]) ? null : new ProductDescription($item[2]),
-                $image,
                 $category,
                 $price,
+                $image,
             );
         }
     }
