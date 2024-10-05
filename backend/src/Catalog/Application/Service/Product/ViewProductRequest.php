@@ -4,15 +4,15 @@ namespace Burger\Catalog\Application\Service\Product;
 
 class ViewProductRequest
 {
-    private string $id;
+    private string $productId;
 
-    public function __construct(string $id)
+    public function __construct(string $productId)
     {
-        $this->id = $id;
+        $this->productId = $productId;
     }
 
-    public function id(): string
+    public function productId(): string
     {
-        return $this->id;
+        return $this->productId;
     }
 }

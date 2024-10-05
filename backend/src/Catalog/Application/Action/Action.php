@@ -5,12 +5,19 @@ namespace Burger\Catalog\Application\Action;
 use Burger\Shared\Domain\Model\Exception\NotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Log\LoggerInterface;
 
 abstract class Action
 {
+    protected LoggerInterface $logger;
     protected Request $request;
     protected Response $response;
     protected array $args;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     abstract protected function action(): Response;
 

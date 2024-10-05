@@ -12,7 +12,8 @@ class InMemoryProductRepository implements ProductRepository
 {
     private array $products = [];
 
-    public function __construct(array $products = []) {
+    public function __construct(array $products = [])
+    {
         if (empty($products)) {
             $this->initialize();
         } else {
@@ -25,10 +26,10 @@ class InMemoryProductRepository implements ProductRepository
         return $this->products;
     }
 
-    public function ofId(ProductId $id): ?Product
+    public function ofId(ProductId $productId): ?Product
     {
         foreach ($this->products as $product) {
-            if ($product->id()->equals($id)) {
+            if ($product->id()->equals($productId)) {
                 return $product;
             }
         }

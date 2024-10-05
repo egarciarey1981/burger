@@ -9,7 +9,7 @@ class ViewProductService extends ProductService
 {
     public function execute(ViewProductRequest $viewProductRequest): ViewProductResponse
     {
-        $productId = new ProductId($viewProductRequest->id());
+        $productId = new ProductId($viewProductRequest->productId());
 
         $product = $this->repository->ofId($productId);
 
