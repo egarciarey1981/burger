@@ -3,6 +3,7 @@
 namespace Burger\Shared\Application\Action;
 
 use Burger\Shared\Domain\Model\Exception\NotFoundException;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -32,9 +33,10 @@ abstract class Action
             return $this->action();
         } catch (NotFoundException $e) {
             return $this->respondWithJson(['error' => $e->getMessage()], 404);
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage());
+            return $this->respondWithJson(['error' => 'Internal Server Error'], 500);
         }
-        
-        return $this->respondWithJson([], 500);
     }
 
     protected function queryParam(string $name)
