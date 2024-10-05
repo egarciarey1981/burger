@@ -8,7 +8,6 @@ use Burger\Catalog\Domain\Model\Category\CategoryName;
 use Burger\Catalog\Domain\Model\Category\CategoryNotFoundException;
 use Burger\Catalog\Domain\Model\Category\CategoryRepository;
 use Burger\Catalog\Domain\Model\Image\ImageId;
-use Burger\Catalog\Domain\Model\Image\ImageNotFoundException;
 use Burger\Catalog\Domain\Model\Image\ImageRepository;
 
 class InMemoryCategoryRepository implements CategoryRepository
@@ -34,36 +33,46 @@ class InMemoryCategoryRepository implements CategoryRepository
         return $this->Categories;
     }
 
-    public function ofCategoryId(CategoryId $CategoryId): ?Category
+    public function ofCategoryId(CategoryId $id, bool $throwException = false): ?Category
     {
         foreach ($this->Categories as $Category) {
-            if ($Category->id()->equals($CategoryId)) {
+            if ($Category->id()->equals($id)) {
                 return $Category;
             }
         }
 
-        return null;
+        if ($throwException) {
+            throw new CategoryNotFoundException($id);
+        } else {
+            return null;
+        }
     }
 
     private function initialize(): void
     {
         $data = [
-            ['burgers', 'Burgers', 'burgers.png', 'burgers'],
-            ['starters', 'Starters', 'starters.png', 'starters'],
-            ['drinks', 'Drinks', 'drinks.png', 'drinks'],
+            [
+                'id' => 'burgers',
+                'name' => 'Burgers',
+                'image' => 'burgers',
+            ],
+            [
+                'id' => 'drinks',
+                'name' => 'Drinks',
+                'image' => 'drinks',
+            ],
+            [
+                'id' => 'starters',
+                'name' => 'Starters',
+                'image' => 'starters',
+            ],
         ];
 
         foreach ($data as $item) {
-            try {
-                $image = $this->imageRepository->ofImageId(new ImageId($item[3]));
-            } catch (ImageNotFoundException $e) {
-                $image = null;
-            }
-
             $this->Categories[] = new Category(
-                new CategoryId($item[0]),
-                new CategoryName($item[1]),
-                $image,
+                new CategoryId($item['id']),
+                new CategoryName($item['name']),
+                $this->imageRepository->ofImageId(new ImageId($item['image']))
             );
         }
     }

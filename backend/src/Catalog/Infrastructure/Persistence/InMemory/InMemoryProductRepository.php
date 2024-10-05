@@ -2,10 +2,15 @@
 
 namespace Burger\Catalog\Infrastructure\Persistence\InMemory;
 
+use Burger\Catalog\Domain\Model\Category\Category;
 use Burger\Catalog\Domain\Model\Category\CategoryId;
+use Burger\Catalog\Domain\Model\Category\CategoryNotFoundException;
 use Burger\Catalog\Domain\Model\Category\CategoryRepository;
+use Burger\Catalog\Domain\Model\Currency\Currency;
 use Burger\Catalog\Domain\Model\Currency\CurrencyId;
+use Burger\Catalog\Domain\Model\Currency\CurrencyNotFoundException;
 use Burger\Catalog\Domain\Model\Currency\CurrencyRepository;
+use Burger\Catalog\Domain\Model\Image\Image;
 use Burger\Catalog\Domain\Model\Image\ImageId;
 use Burger\Catalog\Domain\Model\Image\ImageNotFoundException;
 use Burger\Catalog\Domain\Model\Image\ImageRepository;
@@ -46,7 +51,7 @@ class InMemoryProductRepository implements ProductRepository
         return $this->products;
     }
 
-    public function ofProductId(ProductId $productId): ?Product
+    public function ofProductId(ProductId $productId, bool $throwException = false): ?Product
     {
         foreach ($this->products as $product) {
             if ($product->id()->equals($productId)) {
@@ -54,7 +59,11 @@ class InMemoryProductRepository implements ProductRepository
             }
         }
 
-        return null;
+        if ($throwException) {
+            throw new ProductNotFoundException($productId);
+        } else {
+            return null;
+        }
     }
 
     private function initialize(): void
@@ -135,18 +144,16 @@ class InMemoryProductRepository implements ProductRepository
         ];
 
         foreach ($data as $item) {
-            $category = $this->categoryRepository->ofCategoryId(new CategoryId($item[4]));
-            $currency = $this->currencyRepository->ofCurrencyId(new CurrencyId($item[6]));
-            $image = $this->imageRepository->ofImageId(new ImageId($item[3]));
-            $price = new Price($item[5], $currency);
-
             $this->products[] = new Product(
                 new ProductId($item[0]),
                 new ProductName($item[1]),
                 is_null($item[2]) ? null : new ProductDescription($item[2]),
-                $category,
-                $price,
-                $image,
+                $this->categoryRepository->ofCategoryId(new CategoryId($item[4])),
+                new Price(
+                    $item[5],
+                    $this->currencyRepository->ofCurrencyId(new CurrencyId($item[6]))
+                ),
+                $this->imageRepository->ofImageId(new ImageId($item[3]))
             );
         }
     }

@@ -27,15 +27,19 @@ class InMemoryCurrencyRepository implements CurrencyRepository
         return $this->currencies;
     }
 
-    public function ofCurrencyId(CurrencyId $currencyId): ?Currency
+    public function ofCurrencyId(CurrencyId $id, bool $throwException = false): ?Currency
     {
         foreach ($this->currencies as $currency) {
-            if ($currency->id()->equals($currencyId)) {
+            if ($currency->id()->equals($id)) {
                 return $currency;
             }
         }
 
-        return null;
+        if ($throwException) {
+            throw new CurrencyNotFoundException($id);
+        } else {
+            return null;
+        }
     }
 
     private function initialize(): void

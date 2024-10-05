@@ -4,6 +4,7 @@ namespace Burger\Catalog\Infrastructure\Persistence\InMemory;
 
 use Burger\Catalog\Domain\Model\Image\Image;
 use Burger\Catalog\Domain\Model\Image\ImageId;
+use Burger\Catalog\Domain\Model\Image\ImageNotFoundException;
 use Burger\Catalog\Domain\Model\Image\ImageUrl;
 use Burger\Catalog\Domain\Model\Image\ImageRepository;
 use Burger\Catalog\Domain\Model\Image\ImageTitle;
@@ -21,15 +22,19 @@ class InMemoryImageRepository implements ImageRepository
         }
     }
 
-    public function ofImageId(ImageId $imageId): ?Image
+    public function ofImageId(ImageId $id, bool $throwException = false): ?Image
     {
         foreach ($this->images as $image) {
-            if ($image->id()->equals($imageId)) {
+            if ($image->id()->equals($id)) {
                 return $image;
             }
         }
 
-        return null;
+        if ($throwException) {
+            throw new ImageNotFoundException($id);
+        } else {
+            return null;
+        }
     }
 
     private function initialize(): void

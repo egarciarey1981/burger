@@ -18,12 +18,9 @@ class ViewProductService
     public function execute(ViewProductRequest $request): ViewProductResponse
     {
         $product = $this->repository->ofProductId(
-            new ProductId($request->id())
+            new ProductId($request->id()),
+            true,
         );
-
-        if (is_null($product)) {
-            throw new ProductNotFoundException('Product of id ' . $request->id() . ' not found');
-        }
 
         return new ViewProductResponse($product->toArray());
     }
