@@ -31,7 +31,7 @@ class InMemoryImageRepository implements ImageRepository
         }
 
         if ($throwException) {
-            throw new ImageNotFoundException($id);
+            throw new ImageNotFoundException('Image of id ' . $id->value() . ' not found');
         } else {
             return null;
         }

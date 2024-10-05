@@ -45,16 +45,16 @@ class InMemoryProductRepository implements ProductRepository
         return $this->products;
     }
 
-    public function ofProductId(ProductId $productId, bool $throwException = false): ?Product
+    public function ofProductId(ProductId $id, bool $throwException = false): ?Product
     {
         foreach ($this->products as $product) {
-            if ($product->id()->equals($productId)) {
+            if ($product->id()->equals($id)) {
                 return $product;
             }
         }
 
         if ($throwException) {
-            throw new ProductNotFoundException($productId);
+            throw new ProductNotFoundException('Product of id ' . $id->value() . ' not found');
         } else {
             return null;
         }

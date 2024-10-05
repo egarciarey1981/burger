@@ -36,7 +36,7 @@ class InMemoryCurrencyRepository implements CurrencyRepository
         }
 
         if ($throwException) {
-            throw new CurrencyNotFoundException($id);
+            throw new CurrencyNotFoundException('Currency of id ' . $id->value() . ' not found');
         } else {
             return null;
         }

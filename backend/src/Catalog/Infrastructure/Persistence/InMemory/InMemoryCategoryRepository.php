@@ -42,7 +42,7 @@ class InMemoryCategoryRepository implements CategoryRepository
         }
 
         if ($throwException) {
-            throw new CategoryNotFoundException($id);
+            throw new CategoryNotFoundException('Category of id ' . $id->value() . ' not found');
         } else {
             return null;
         }
