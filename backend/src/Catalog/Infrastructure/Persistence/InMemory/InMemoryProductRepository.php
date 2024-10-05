@@ -2,17 +2,11 @@
 
 namespace Burger\Catalog\Infrastructure\Persistence\InMemory;
 
-use Burger\Catalog\Domain\Model\Category\Category;
 use Burger\Catalog\Domain\Model\Category\CategoryId;
-use Burger\Catalog\Domain\Model\Category\CategoryNotFoundException;
 use Burger\Catalog\Domain\Model\Category\CategoryRepository;
-use Burger\Catalog\Domain\Model\Currency\Currency;
 use Burger\Catalog\Domain\Model\Currency\CurrencyId;
-use Burger\Catalog\Domain\Model\Currency\CurrencyNotFoundException;
 use Burger\Catalog\Domain\Model\Currency\CurrencyRepository;
-use Burger\Catalog\Domain\Model\Image\Image;
 use Burger\Catalog\Domain\Model\Image\ImageId;
-use Burger\Catalog\Domain\Model\Image\ImageNotFoundException;
 use Burger\Catalog\Domain\Model\Image\ImageRepository;
 use Burger\Catalog\Domain\Model\Price\Price;
 use Burger\Catalog\Domain\Model\Product\Product;
