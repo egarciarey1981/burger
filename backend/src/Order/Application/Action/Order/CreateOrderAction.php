@@ -6,6 +6,7 @@ use Burger\Order\Application\Service\Order\CreateOrderRequest;
 use Burger\Order\Application\Service\Order\CreateOrderService;
 use Burger\Shared\Application\Action\Action;
 use DateTimeImmutable;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
@@ -23,14 +24,36 @@ class CreateOrderAction extends Action
 
     public function action(): Response
     {
+        $date = new DateTimeImmutable();
+        $orderLines = $this->getOrderLines();
+
         $createOrderRequest = new CreateOrderRequest(
-            new DateTimeImmutable(),
+            $date,
+            $orderLines,
         );
 
-        $this->createOrderService->execute($createOrderRequest);
+        $createOrderResponse = $this->createOrderService->execute($createOrderRequest);
 
+        $data['order'] = $createOrderResponse->order();
+        
         $this->logger->info('Order was created');
 
-        return $this->respond(201);
+        return $this->respondWithJson($data, 201);
+    }
+
+    private function getOrderLines(): array
+    {
+        $lines = $this->postParam('lines');
+
+        if (is_null($lines)) {
+            throw new InvalidArgumentException('Missing `lines` parameter');
+        }
+
+        return array_map(function ($line) {
+            return [
+                'productId' => $line['product_id'],
+                'quantity' => $line['quantity'],
+            ];
+        }, $lines);
     }
 }

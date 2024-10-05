@@ -4,6 +4,7 @@ namespace Burger\Shared\Application\Action;
 
 use Burger\Shared\Domain\Model\Exception\NotFoundException;
 use Exception;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Log\LoggerInterface;
@@ -31,6 +32,8 @@ abstract class Action
 
         try {
             return $this->action();
+        } catch (InvalidArgumentException $e) {
+            return $this->respondWithJson(['error' => $e->getMessage()], 400);
         } catch (NotFoundException $e) {
             return $this->respondWithJson(['error' => $e->getMessage()], 404);
         } catch (Exception $e) {
@@ -42,6 +45,12 @@ abstract class Action
     protected function queryParam(string $name)
     {
         return $this->request->getQueryParams()[$name] ?? null;
+    }
+
+    protected function postParam(string $name)
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+        return $data[$name] ?? null;
     }
 
     protected function respond(int $statusCode): Response

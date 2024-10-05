@@ -6,13 +6,16 @@ class Order
 {
     private OrderId $id;
     private OrderDate $date;
+    private array $orderLines;
 
     public function __construct(
         OrderId $id,
         OrderDate $date,
+        array $orderLines
     ) {
         $this->id = $id;
         $this->date = $date;
+        $this->orderLines = $orderLines;
     }
 
     public function id(): OrderId
@@ -23,5 +26,21 @@ class Order
     public function date(): OrderDate
     {
         return $this->date;
+    }
+
+    public function orderLines(): array
+    {
+        return $this->orderLines;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'date' => (string) $this->date,
+            'lines' => array_map(function ($line) {
+                return $line->toArray();
+            }, $this->orderLines),
+        ];
     }
 }
