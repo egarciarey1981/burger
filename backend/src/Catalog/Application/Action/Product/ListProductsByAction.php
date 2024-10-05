@@ -4,6 +4,7 @@ namespace Burger\Catalog\Application\Action\Product;
 
 use Burger\Catalog\Application\Service\Product\ListProductsService;
 use Burger\Shared\Application\Action\Action;
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
@@ -30,6 +31,9 @@ class ListProductsByAction extends Action
         $data = [];
 
         foreach ($products as $product) {
+            if (!isset($product[$key])) {
+                throw new InvalidArgumentException('Invalid key');
+            }
             $by = $product[$key];
             unset($product[$key]);
             $data[$by][] = $product;
