@@ -28,6 +28,11 @@ class Price
         return $this->currency;
     }
 
+    public function __toString()
+    {
+        return sprintf($this->currency->format(), $this->amount);
+    }
+
     public function toArray(): array
     {
         return [

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Burger\Catalog\Application\Action\Product\ListProductsAction;
+use Burger\Catalog\Application\Action\Category\ListCategoriesWithProductsAction;
 use Burger\Catalog\Application\Action\Product\ViewProductAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,8 +21,10 @@ return function (App $app) {
     });
 
     $app->group('/catalog', function (Group $group) {
+        $group->group('/category', function (Group $group) {
+            $group->get('/product', ListCategoriesWithProductsAction::class);
+        });
         $group->group('/product', function (Group $group) {
-            $group->get('', ListProductsAction::class);
             $group->get('/{id}', ViewProductAction::class);
         });
     });

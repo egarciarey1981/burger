@@ -68,7 +68,7 @@ class Product
         return [
             'id' => (string) $this->id,
             'name' => (string) $this->name,
-            'description' => (string) $this->description ?? null,
+            'description' => is_null($this->description) ? null : (string) $this->description,
             'category' => $this->category->toArray(),
             'price' => $this->price->toArray(),
             'image' => $this->image?->toArray() ?? null,
