@@ -4,23 +4,18 @@ namespace Burger\Catalog\Application\Service\Product;
 
 use Burger\Catalog\Domain\Model\Product\ProductId;
 use Burger\Catalog\Domain\Model\Product\ProductNotFoundException;
-use Burger\Catalog\Domain\Model\Product\ProductRepository;
 
-class ViewProductService
+class ViewProductService extends ProductService
 {
-    private ProductRepository $repository;
-
-    public function __construct(ProductRepository $repository)
+    public function execute(ViewProductRequest $viewProductRequest): ViewProductResponse
     {
-        $this->repository = $repository;
-    }
+        $productId = new ProductId($viewProductRequest->id());
 
-    public function execute(ViewProductRequest $request): ViewProductResponse
-    {
-        $product = $this->repository->ofProductId(
-            new ProductId($request->id()),
-            true,
-        );
+        $product = $this->repository->ofId($productId);
+
+        if ($product === null) {
+            throw new ProductNotFoundException('Product of id ' . $productId->value() . ' not found');
+        }
 
         return new ViewProductResponse($product->toArray());
     }
