@@ -1,8 +1,8 @@
 <?php
 
-namespace Burger\Catalog\Domain\Model\Product;
+namespace Burger\Catalog\Domain\Model\Category;
 
-class ProductId
+class CategoryName
 {
     private string $value;
 
@@ -19,10 +19,5 @@ class ProductId
     public function __toString()
     {
         return $this->value;
-    }
-
-    public function equals(ProductId $productId): bool
-    {
-        return $this->value() === $productId->value();
     }
 }

@@ -18,11 +18,7 @@ class ListProductService
         $products = $this->repository->all();
 
         array_walk($products, function (&$product) {
-            $product = [
-                'id' => $product->id()->value(),
-                'name' => $product->name()->value(),
-                'category' => $product->category()->value(),
-            ];
+            $product = $product->toArray();
         });
 
         return new ListProductResponse($products);

@@ -1,8 +1,8 @@
 <?php
 
-namespace Burger\Catalog\Domain\Model\Product;
+namespace Burger\Catalog\Domain\Model\Category;
 
-class ProductId
+class CategoryId
 {
     private string $value;
 
@@ -21,8 +21,8 @@ class ProductId
         return $this->value;
     }
 
-    public function equals(ProductId $productId): bool
+    public function equals(CategoryId $other): bool
     {
-        return $this->value() === $productId->value();
+        return $this->value === $other->value;
     }
 }

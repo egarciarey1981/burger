@@ -15,4 +15,9 @@ class ProductName
     {
         return $this->value;
     }
+
+    public function __toString()
+    {
+        return $this->value;
+    }
 }

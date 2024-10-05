@@ -2,7 +2,7 @@
 
 namespace Burger\Catalog\Domain\Model\Product;
 
-class ProductId
+class ProductImageUrl
 {
     private string $value;
 
@@ -19,10 +19,5 @@ class ProductId
     public function __toString()
     {
         return $this->value;
-    }
-
-    public function equals(ProductId $productId): bool
-    {
-        return $this->value() === $productId->value();
     }
 }

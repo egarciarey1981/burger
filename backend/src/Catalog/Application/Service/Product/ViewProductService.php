@@ -20,12 +20,6 @@ class ViewProductService
             new ProductId($request->id())
         );
 
-        $product = [
-            'id' => $product->id()->value(),
-            'name' => $product->name()->value(),
-            'category' => $product->category()->value(),
-        ];
-
-        return new ViewProductResponse($product);
+        return new ViewProductResponse($product->toArray());
     }
 }
