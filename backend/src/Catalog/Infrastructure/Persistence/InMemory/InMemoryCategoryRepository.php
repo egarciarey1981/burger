@@ -41,9 +41,9 @@ class InMemoryCategoryRepository implements CategoryRepository
     private function initialize(): void
     {
         $data = [
-            ['burgers', 'Burgers', ''],
-            ['starters', 'Starters', ''],
-            ['drinks', 'Drinks', ''],
+            ['burgers', 'Burgers', 'burgers.png'],
+            ['starters', 'Starters', 'starters.png'],
+            ['drinks', 'Drinks', 'drinks.png'],
         ];
 
         foreach ($data as $item) {
