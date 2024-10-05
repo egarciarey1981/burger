@@ -30,10 +30,7 @@ class OrderLine
     public function toArray(): array
     {
         return [
-            'product' => [
-                'id' => (string)$this->product->id(),
-                'name' => (string)$this->product->name(),
-            ],
+            'product' => (string)$this->product->name(),
             'quantity' => $this->quantity->value(),
         ];
     }
