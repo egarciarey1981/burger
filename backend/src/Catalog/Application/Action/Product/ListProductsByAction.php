@@ -2,9 +2,8 @@
 
 namespace Burger\Catalog\Application\Action\Product;
 
-use Burger\Catalog\Application\Query\Product\ListProductsByKeyQuery;
+use Burger\Catalog\Application\Query\Product\ListProductsGroupedByKeyQuery;
 use Burger\Shared\Application\Action\Action;
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
 
 class ListProductsByAction extends Action
@@ -13,14 +12,14 @@ class ListProductsByAction extends Action
     {
         $key = $this->args['key'];
 
-        $listProductsByKeyQuery = new ListProductsByKeyQuery($key);
+        $listProductsGroupedByKeyQuery = new ListProductsGroupedByKeyQuery($key);
 
-        $listProductsByKeyResponse = $this->queryBus->handle($listProductsByKeyQuery);
+        $listProductsGroupedByKeyResponse = $this->queryBus->handle($listProductsGroupedByKeyQuery);
 
-        $products = $listProductsByKeyResponse->products();
+        $productsGroupedByKey = $listProductsGroupedByKeyResponse->products();
 
-        $this->logger->info('Products list was viewed');
+        $this->logger->info('Products grouped by key `' . $key . '` was viewed.');
 
-        return $this->respondWithData($products);
+        return $this->respondWithData($productsGroupedByKey);
     }
 }

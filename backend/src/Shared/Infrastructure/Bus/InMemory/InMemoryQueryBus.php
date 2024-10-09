@@ -18,9 +18,7 @@ class InMemoryQueryBus implements QueryBus
     public function handle(Query $query)
     {
         $queryClass = get_class($query);
-
         $handler = $this->handlers[$queryClass];
-
-        return $handler($query);
+        return $handler->handle($query);
     }
 }

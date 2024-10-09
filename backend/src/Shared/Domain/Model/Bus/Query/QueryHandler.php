@@ -2,4 +2,7 @@
 
 namespace Burger\Shared\Domain\Model\Bus\Query;
 
-interface QueryHandler {}
+interface QueryHandler
+{
+    public function handle(Query $query): QueryResponse;
+}

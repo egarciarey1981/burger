@@ -4,7 +4,7 @@ namespace Burger\Catalog\Application\Query\Product;
 
 use Burger\Shared\Domain\Model\Bus\Query\QueryResponse;
 
-class ListProductsByKeyResponse implements QueryResponse
+class ListProductsGroupedByKeyResponse implements QueryResponse
 {
     private array $products;
 

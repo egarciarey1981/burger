@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Burger\Catalog\Application\Query\Product\ListProductsByKeyQuery;
-use Burger\Catalog\Application\Query\Product\ListProductsByKeyQueryHandler;
+use Burger\Catalog\Application\Query\Product\ListProductsGroupedByKeyQuery;
+use Burger\Catalog\Application\Query\Product\ListProductsGroupedByKeyQueryHandler;
 use Burger\Shared\Domain\Model\Bus\Query\QueryBus;
 use Burger\Shared\Infrastructure\Bus\InMemory\InMemoryQueryBus;
 use DI\ContainerBuilder;
@@ -14,7 +14,7 @@ return function (ContainerBuilder $containerBuilder) {
         QueryBus::class => function (ContainerInterface $c) {
             $queryBus = new InMemoryQueryBus();
 
-            $queryBus->register(ListProductsByKeyQuery::class, $c->get(ListProductsByKeyQueryHandler::class));
+            $queryBus->register(ListProductsGroupedByKeyQuery::class, $c->get(ListProductsGroupedByKeyQueryHandler::class));
 
             return $queryBus;
         },

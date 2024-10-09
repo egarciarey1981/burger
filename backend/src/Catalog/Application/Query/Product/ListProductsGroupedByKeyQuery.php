@@ -4,7 +4,7 @@ namespace Burger\Catalog\Application\Query\Product;
 
 use Burger\Shared\Domain\Model\Bus\Query\Query;
 
-class ListProductsByKeyQuery implements Query
+class ListProductsGroupedByKeyQuery implements Query
 {
     private string $key;
 
