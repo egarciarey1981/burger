@@ -8,6 +8,10 @@ class ListProductsService extends ProductService
     {
         $products = $this->repository->all();
 
+        array_walk($products, function ($product) {
+            $product->toArray();
+        });
+
         return new ListProductsResponse($products);
     }
 }

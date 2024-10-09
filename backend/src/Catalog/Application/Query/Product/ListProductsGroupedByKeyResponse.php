@@ -6,15 +6,15 @@ use Burger\Shared\Domain\Model\Bus\Query\QueryResponse;
 
 class ListProductsGroupedByKeyResponse implements QueryResponse
 {
-    private array $products;
+    private array $productsGroupedByKey;
 
-    public function __construct(array $products)
+    public function __construct(array $productsGroupedByKey)
     {
-        $this->products = $products;
+        $this->productsGroupedByKey = $productsGroupedByKey;
     }
 
-    public function products(): array
+    public function productsGroupedByKey(): array
     {
-        return $this->products;
+        return $this->productsGroupedByKey;
     }
 }

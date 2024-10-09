@@ -25,7 +25,8 @@ class ListProductsGroupedByKeyQueryHandler implements QueryHandler
 
         $listProductsResponse = $this->listProductsService->execute();
 
-        $productsArray = $this->productsToArray($listProductsResponse->products());
+        $productsObject = $listProductsResponse->products();
+        $productsArray = $this->productsToArray($productsObject);
         $productsGroupByKey = $this->groupByKey($productsArray, $query->key());
 
         return new ListProductsGroupedByKeyResponse($productsGroupByKey);
@@ -48,7 +49,7 @@ class ListProductsGroupedByKeyQueryHandler implements QueryHandler
             }
             $keyValue = $product[$key];
             unset($product[$key]);
-            $productsGroupedBy[$keyValue][] = $product;
+            $productsGroupedBy[$keyValue]['products'][] = $product;
         }
 
         return $productsGroupedBy;
