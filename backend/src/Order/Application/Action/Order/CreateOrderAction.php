@@ -38,7 +38,7 @@ class CreateOrderAction extends Action
         
         $this->logger->info('Order was created');
 
-        return $this->respondWithJson($data, 201);
+        return $this->respondWithData($data, 201);
     }
 
     private function getOrderLines(): array

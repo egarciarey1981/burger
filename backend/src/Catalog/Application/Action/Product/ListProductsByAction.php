@@ -2,45 +2,25 @@
 
 namespace Burger\Catalog\Application\Action\Product;
 
-use Burger\Catalog\Application\Service\Product\ListProductsService;
+use Burger\Catalog\Application\Query\Product\ListProductsByKeyQuery;
 use Burger\Shared\Application\Action\Action;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Log\LoggerInterface;
 
 class ListProductsByAction extends Action
 {
-    private ListProductsService $listProductsService;
-
-    public function __construct(
-        LoggerInterface $logger,
-        ListProductsService $listProductsService,
-    ) {
-        parent::__construct($logger);
-        $this->listProductsService = $listProductsService;
-    }
-
     public function action(): Response
     {
-        $listProductsResponse = $this->listProductsService->execute();
-
-        $products = $listProductsResponse->products();
-
         $key = $this->args['key'];
 
-        $data = [];
+        $listProductsByKeyQuery = new ListProductsByKeyQuery($key);
 
-        foreach ($products as $product) {
-            if (!isset($product[$key])) {
-                throw new InvalidArgumentException('Invalid key');
-            }
-            $by = $product[$key];
-            unset($product[$key]);
-            $data[$by][] = $product;
-        }
+        $listProductsByKeyResponse = $this->queryBus->handle($listProductsByKeyQuery);
+
+        $products = $listProductsByKeyResponse->products();
 
         $this->logger->info('Products list was viewed');
 
-        return $this->respondWithJson($data);
+        return $this->respondWithData($products);
     }
 }

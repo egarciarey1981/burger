@@ -33,6 +33,6 @@ class ViewProductAction extends Action
 
         $this->logger->info('Product of id `' . $this->args['id'] . '` was viewed');
 
-        return $this->respondWithJson($data);
+        return $this->respondWithData($data);
     }
 }

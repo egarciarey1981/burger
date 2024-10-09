@@ -2,6 +2,7 @@
 
 namespace Burger\Shared\Application\Action;
 
+use Burger\Shared\Domain\Model\Bus\Query\QueryBus;
 use Burger\Shared\Domain\Model\Exception\NotFoundException;
 use Exception;
 use InvalidArgumentException;
@@ -15,17 +16,18 @@ abstract class Action
     protected Request $request;
     protected Response $response;
     protected array $args;
+    protected QueryBus $queryBus;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, QueryBus $queryBus)
     {
         $this->logger = $logger;
+        $this->queryBus = $queryBus;
     }
 
     abstract protected function action(): Response;
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-
         $this->request = $request;
         $this->response = $response;
         $this->args = $args;
@@ -33,12 +35,12 @@ abstract class Action
         try {
             return $this->action();
         } catch (InvalidArgumentException $e) {
-            return $this->respondWithJson(['error' => $e->getMessage()], 400);
+            return $this->respondWithData(['error' => $e->getMessage()], 400);
         } catch (NotFoundException $e) {
-            return $this->respondWithJson(['error' => $e->getMessage()], 404);
+            return $this->respondWithData(['error' => $e->getMessage()], 404);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
-            return $this->respondWithJson(['error' => 'Internal Server Error'], 500);
+            return $this->respondWithData(['error' => 'Internal Server Error'], 500);
         }
     }
 
@@ -53,12 +55,7 @@ abstract class Action
         return $data[$name] ?? null;
     }
 
-    protected function respond(int $statusCode): Response
-    {
-        return $this->response->withStatus($statusCode);
-    }
-
-    protected function respondWithJson(array $data, int $statusCode = 200): Response
+    protected function respondWithData(array $data, int $statusCode = 200): Response
     {
         $this->response->getBody()->write(json_encode($data));
         return $this->response
