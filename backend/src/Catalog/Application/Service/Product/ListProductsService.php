@@ -8,10 +8,6 @@ class ListProductsService extends ProductService
     {
         $products = $this->repository->all();
 
-        $products = array_map(function ($product) {
-            return $product->toArray();
-        }, $products);
-
         return new ListProductsResponse($products);
     }
 }

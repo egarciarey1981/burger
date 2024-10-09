@@ -18,6 +18,10 @@ $dependencies($containerBuilder);
 $repositories = require __DIR__ . '/../app/repositories.php';
 $repositories($containerBuilder);
 
+// Set up hande¡lers
+$repositories = require __DIR__ . '/../app/handlers.php';
+$repositories($containerBuilder);
+
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();
 
