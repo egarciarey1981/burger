@@ -4,12 +4,13 @@ namespace Burger\Shared\Infrastructure\Bus\InMemory;
 
 use Burger\Shared\Domain\Model\Bus\Query\Query;
 use Burger\Shared\Domain\Model\Bus\Query\QueryBus;
+use Burger\Shared\Domain\Model\Bus\Query\QueryHandler;
 
 class InMemoryQueryBus implements QueryBus
 {
     private $handlers = [];
 
-    public function register(string $queryClass, callable $handlerClass)
+    public function register(string $queryClass, QueryHandler $handlerClass)
     {
         $this->handlers[$queryClass] = $handlerClass;
     }

@@ -4,9 +4,11 @@ namespace Burger\Catalog\Application\Query\Product;
 
 use Burger\Catalog\Application\Service\Product\ListProductsService;
 use Burger\Catalog\Domain\Model\Product\ProductRepository;
+use Burger\Shared\Domain\Model\Bus\Query\QueryHandler;
+use Burger\Shared\Domain\Model\Bus\Query\QueryResponse;
 use InvalidArgumentException;
 
-class ListProductsByKeyQueryHandler
+class ListProductsByKeyQueryHandler implements QueryHandler
 {
     private ProductRepository $productRepository;
 
@@ -15,7 +17,7 @@ class ListProductsByKeyQueryHandler
         $this->productRepository = $productRepository;
     }
 
-    public function __invoke(ListProductsByKeyQuery $query): ListProductsByKeyResponse
+    public function __invoke(ListProductsByKeyQuery $query): QueryResponse
     {
         $listProductsService = new ListProductsService($this->productRepository);
         $listProductsResponse = $listProductsService->execute();
@@ -34,19 +36,13 @@ class ListProductsByKeyQueryHandler
     {
         $productsBy = [];
 
-        // Group products by key
         foreach ($products as $product) {
             if (!isset($product[$key]) || is_array($product[$key])) {
                 throw new InvalidArgumentException('Invalid key');
             }
-            $productsBy[$product[$key]][] = $product;
-        }
-
-        // Remove key from products
-        foreach ($productsBy as &$products) {
-            foreach ($products as &$product) {
-                unset($product[$key]);
-            }
+            $keyValue = $product[$key];
+            unset($product[$key]);
+            $productsBy[$keyValue][] = $product;
         }
 
         return $productsBy;
