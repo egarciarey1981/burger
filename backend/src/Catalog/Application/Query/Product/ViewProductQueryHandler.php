@@ -25,13 +25,16 @@ class ViewProductQueryHandler implements QueryHandler
             throw new InvalidArgumentException('Invalid query');
         }
 
-        $productId = new ProductId($query->productId());
+        $viewProductResponse = $this->viewProductService->execute(
+            new ViewProductRequest(
+                new ProductId(
+                    $query->productId()
+                )
+            )
+        );
 
-        $viewProductResponse = new ViewProductRequest($productId);
-        $viewProductResponse = $this->viewProductService->execute($viewProductResponse);
-
-        $product = $viewProductResponse->product();
-
-        return new ViewProductResponse($product);
+        return new ViewProductResponse(
+            $viewProductResponse->product()
+        );
     }
 }

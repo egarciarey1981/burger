@@ -25,18 +25,11 @@ class ListProductsGroupedByKeyQueryHandler implements QueryHandler
 
         $listProductsResponse = $this->listProductsService->execute();
 
-        $productsObject = $listProductsResponse->products();
-        $productsArray = $this->productsToArray($productsObject);
-        $productsGroupByKey = $this->groupByKey($productsArray, $query->key());
-
-        return new ListProductsGroupedByKeyResponse($productsGroupByKey);
-    }
-
-    private function productsToArray(array $products): array
-    {
-        return array_map(function ($product) {
-            return $product->toArray();
-        }, $products);
+        return new ListProductsGroupedByKeyResponse(
+            $this->groupByKey(
+                $listProductsResponse->products(),
+                $query->key())
+        );
     }
 
     private function groupByKey(array $products, string $key): array

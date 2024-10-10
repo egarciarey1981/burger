@@ -10,15 +10,16 @@ class ViewProductAction extends Action
 {
     public function action(): Response
     {
-        $propductId = $this->args['id'];
+        $productId = $this->args['id'];
 
-        $viewProductQuery = new ViewProductQuery($propductId);
-        $viewProductResponse = $this->queryBus->handle($viewProductQuery);
+        $queryResponse = $this->queryBus->handle(
+            new ViewProductQuery($productId)
+        );
 
-        $data['product'] = $viewProductResponse->product();
+        $this->logger->info('Product of id `' . $productId . '` was viewed');
 
-        $this->logger->info('Product of id `' . $this->args['id'] . '` was viewed');
-
-        return $this->respondWithData($data);
+        return $this->respondWithData([
+            'products' => $queryResponse->product()
+        ]);
     }
 }

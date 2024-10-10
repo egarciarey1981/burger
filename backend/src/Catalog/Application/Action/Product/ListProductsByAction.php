@@ -12,13 +12,14 @@ class ListProductsByAction extends Action
     {
         $key = $this->args['key'];
 
-        $listProductsGroupedByKeyQuery = new ListProductsGroupedByKeyQuery($key);
-        $listProductsGroupedByKeyResponse = $this->queryBus->handle($listProductsGroupedByKeyQuery);
-
-        $data['key_values'] = $listProductsGroupedByKeyResponse->productsGroupedByKey();
+        $queryResponse = $this->queryBus->handle(
+            new ListProductsGroupedByKeyQuery($key)
+        );
 
         $this->logger->info('Products grouped by key `' . $key . '` was viewed.');
 
-        return $this->respondWithData($data);
+        return $this->respondWithData([
+            'key_values' => $queryResponse->productsGroupedByKey()
+        ]);
     }
 }
