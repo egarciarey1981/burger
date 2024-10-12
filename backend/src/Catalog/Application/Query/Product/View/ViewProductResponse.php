@@ -1,8 +1,10 @@
 <?php
 
-namespace Burger\Catalog\Application\Service\Product;
+namespace Burger\Catalog\Application\Query\Product\View;
 
-class ViewProductResponse
+use Burger\Shared\Domain\Model\Bus\Query\QueryResponse;
+
+class ViewProductResponse implements QueryResponse
 {
     private array $product;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Burger\Catalog\Application\Service\Product;
+namespace Burger\Catalog\Application\Service\Product\List;
 
 class ListProductsResponse
 {

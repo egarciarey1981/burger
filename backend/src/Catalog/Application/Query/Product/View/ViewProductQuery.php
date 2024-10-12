@@ -1,8 +1,10 @@
 <?php
 
-namespace Burger\Catalog\Application\Service\Product;
+namespace Burger\Catalog\Application\Query\Product\View;
 
-class ViewProductRequest
+use Burger\Shared\Domain\Model\Bus\Query\Query;
+
+class ViewProductQuery implements Query
 {
     private string $productId;
 

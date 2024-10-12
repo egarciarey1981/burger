@@ -1,8 +1,8 @@
 <?php
 
-namespace Burger\Catalog\Application\Query\Product;
+namespace Burger\Catalog\Application\Query\Product\ListGroupedByKey;
 
-use Burger\Catalog\Application\Service\Product\ListProductsService;
+use Burger\Catalog\Application\Service\Product\List\ListProductsService;
 use Burger\Shared\Domain\Model\Bus\Query\Query;
 use Burger\Shared\Domain\Model\Bus\Query\QueryHandler;
 use Burger\Shared\Domain\Model\Bus\Query\QueryResponse;
@@ -28,7 +28,8 @@ class ListProductsGroupedByKeyQueryHandler implements QueryHandler
         return new ListProductsGroupedByKeyResponse(
             $this->groupByKey(
                 $listProductsResponse->products(),
-                $query->key())
+                $query->key()
+            )
         );
     }
 

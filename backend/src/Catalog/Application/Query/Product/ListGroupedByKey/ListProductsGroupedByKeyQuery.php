@@ -1,6 +1,6 @@
 <?php
 
-namespace Burger\Catalog\Application\Query\Product;
+namespace Burger\Catalog\Application\Query\Product\ListGroupedByKey;
 
 use Burger\Shared\Domain\Model\Bus\Query\Query;
 

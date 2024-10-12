@@ -1,6 +1,8 @@
 <?php
 
-namespace Burger\Catalog\Application\Service\Product;
+namespace Burger\Catalog\Application\Service\Product\List;
+
+use Burger\Catalog\Application\Service\Product\ProductService;
 
 class ListProductsService extends ProductService
 {
