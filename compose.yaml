@@ -9,3 +9,19 @@ services:
       - "8080:8080"
     volumes:
       - ./backend:/var/www
+  database:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: burger
+      MYSQL_USER: burger
+      MYSQL_PASSWORD: burger
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./database/schema.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./database/data.sql:/docker-entrypoint-initdb.d/2.sql"
+      - db:/var/lib/mysql
+
+volumes:
+  db:

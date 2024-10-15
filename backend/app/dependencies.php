@@ -23,5 +23,16 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
+        PDO::class => function (ContainerInterface $c) {
+            $host = 'database';
+            $port = '3306';
+            $dbname = 'burger';
+            $user = 'burger';
+            $password = 'burger';
+
+            $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+
+            return new PDO($dsn, $user, $password);
+        },
     ]);
 };
