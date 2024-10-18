@@ -10,16 +10,15 @@ class ListProductsAction extends Action
 {
     public function action(): Response
     {
-        $listProductsQueryResponse = $this->queryBus->handle(
-            new ListProductsQuery(
-                $this->request->getQueryParams()['currency'] ?? 'USD'
-            )
-        );
+        $currency = $this->request->getQueryParams()['currency'] ?? 'USD';
+
+        $query = new ListProductsQuery($currency);
+        $queryResponse = $this->queryBus->handle($query);
+
+        $data['products'] = $queryResponse->products();
 
         $this->logger->info('Products was viewed.');
 
-        return $this->respondWithData([
-            'products' => $listProductsQueryResponse->products()
-        ]);
+        return $this->respondWithData($data);
     }
 }

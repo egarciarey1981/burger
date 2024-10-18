@@ -45,11 +45,11 @@ class Product
 
     public function toArray(): array
     {
-        return [
-            'id' => (string) $this->id,
-            'name' => (string) $this->name,
-            'category' => (string) $this->category,
-            'price' => $this->price->toArray(),
-        ];
+        $product['id'] = (string) $this->id;
+        $product['name'] = (string) $this->name;
+        $product['category'] = (string) $this->category;
+        $product['price'] = $this->price->toArray();
+
+        return $product;
     }
 }

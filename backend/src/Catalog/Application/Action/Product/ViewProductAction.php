@@ -10,17 +10,16 @@ class ViewProductAction extends Action
 {
     public function action(): Response
     {
-        $viewProductQueryResponse = $this->queryBus->handle(
-            new ViewProductQuery(
-                $this->args['id'],
-                $this->request->getQueryParams()['currency'] ?? 'USD'
-            ),
-        );
+        $id = $this->args['id'];
+        $currency = $this->request->getQueryParams()['currency'] ?? 'USD';
 
-        $this->logger->info('Product of id `' . $this->args['id'] . '` was viewed');
+        $query = new ViewProductQuery($id, $currency);
+        $queryResponse = $this->queryBus->handle($query);
 
-        return $this->respondWithData([
-            'products' => $viewProductQueryResponse->product()
-        ]);
+        $data['products'] = $queryResponse->product();
+
+        $this->logger->info("Product of id `$id` was viewed");
+
+        return $this->respondWithData($data);
     }
 }

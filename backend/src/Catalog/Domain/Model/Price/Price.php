@@ -10,10 +10,8 @@ class Price
     private PriceAmount $amount;
     private Currency $currency;
 
-    public function __construct(
-        PriceAmount $amount,
-        Currency $currency,
-    ) {
+    public function __construct(PriceAmount $amount, Currency $currency)
+    {
         $this->amount = $amount;
         $this->currency = $currency;
     }
@@ -30,10 +28,13 @@ class Price
 
     public function multiply(int $quantity): self
     {
-        return new self(
-            new PriceAmount($this->amount->value() * $quantity),
-            $this->currency
-        );
+        $newAmount = $this->amount->value() * $quantity;
+
+        $newPriceAmount = new PriceAmount($newAmount);
+
+        $newPrice = new self($newPriceAmount, $this->currency);
+
+        return $newPrice;
     }
 
     public function add(self $price): self
@@ -42,17 +43,20 @@ class Price
             throw new InvalidArgumentException('Cannot add prices with different currencies');
         }
 
-        return new self(
-            new PriceAmount($this->amount->value() + $price->amount()->value()),
-            $this->currency
-        );
+        $newAmount = $this->amount->value() + $price->amount()->value();
+
+        $newPriceAmount = new PriceAmount($newAmount);
+
+        $newPrice = new self($newPriceAmount, $this->currency);
+
+        return $newPrice;
     }
 
     public function toArray(): array
     {
-        return [
-            'amount' => $this->amount->value(),
-            'currency' => (string)$this->currency,
-        ];
+        $price['amount'] = $this->amount->value();
+        $price['currency'] = (string)$this->currency;
+
+        return $price;
     }
 }

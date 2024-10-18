@@ -18,10 +18,10 @@ class InMemoryProductRepository implements ProductRepository
     public function __construct(array $products = [])
     {
         if (empty($products)) {
-            $this->initialize();
-        } else {
-            $this->products = $products;
+            $products = $this->productsToInitialize();
         }
+
+        $this->products = $products;
     }
 
     public function findByCurrency(Currency $currency): array
@@ -42,9 +42,9 @@ class InMemoryProductRepository implements ProductRepository
         return null;
     }
 
-    private function initialize(): void
+    private function productsToInitialize(): array
     {
-        $data = [
+        $dataProducts = [
             [
                 'id' => 'burger',
                 'name' => 'Burger',
@@ -52,15 +52,6 @@ class InMemoryProductRepository implements ProductRepository
                 'price' => [
                     'amount' => 5.0,
                     'currency' => 'USD',
-                ],
-            ],
-            [
-                'id' => 'burger',
-                'name' => 'Burger',
-                'category' => 'Burgers',
-                'price' => [
-                    'amount' => 5.0,
-                    'currency' => 'EUR',
                 ],
             ],
             [
@@ -128,16 +119,26 @@ class InMemoryProductRepository implements ProductRepository
             ],
         ];
 
-        foreach ($data as $item) {
-            $this->products[] = new Product(
-                new ProductId($item['id']),
-                new ProductName($item['name']),
-                new ProductCategory($item['category']),
-                new Price(
-                    new PriceAmount($item['price']['amount']),
-                    new Currency($item['price']['currency'])
-                ),
-            );
+        $dataExchangeRates = [
+            'USD' => 1.0,
+            'EUR' => 0.85,
+            'GBP' => 0.75,
+        ];
+
+        foreach ($dataProducts as $dataProduct) {
+            foreach ($dataExchangeRates as $currency => $exchangeRate) {
+                $products[] = new Product(
+                    new ProductId($dataProduct['id']),
+                    new ProductName($dataProduct['name']),
+                    new ProductCategory($dataProduct['category']),
+                    new Price(
+                        new PriceAmount($dataProduct['price']['amount'] * $exchangeRate),
+                        new Currency($currency)
+                    ),
+                );
+            }
         }
+
+        return $products;
     }
 }

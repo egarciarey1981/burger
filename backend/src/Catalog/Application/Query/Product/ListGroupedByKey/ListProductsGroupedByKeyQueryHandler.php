@@ -24,18 +24,13 @@ class ListProductsGroupedByKeyQueryHandler implements QueryHandler
             throw new InvalidArgumentException('Invalid query');
         }
 
-        $listProductsResponse = $this->listProductsService->execute(
-            new ListProductsRequest(
-                $query->currency()
-            )
-        );
+        $serviceRequest = new ListProductsRequest($query->currency());
+        $serviceResponse = $this->listProductsService->execute($serviceRequest);
 
-        return new ListProductsGroupedByKeyResponse(
-            $this->groupByKey(
-                $listProductsResponse->products(),
-                $query->key()
-            )
-        );
+        $products = $serviceResponse->products();
+        $productsGroupedByKey = $this->groupByKey($products, $query->key());
+
+        return new ListProductsGroupedByKeyResponse($productsGroupedByKey);
     }
 
     private function groupByKey(array $products, string $key): array

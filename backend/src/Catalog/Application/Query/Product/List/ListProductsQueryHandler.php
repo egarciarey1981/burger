@@ -24,14 +24,11 @@ class ListProductsQueryHandler implements QueryHandler
             throw new InvalidArgumentException('Invalid query');
         }
 
-        $listProductsResponse = $this->listProductsService->execute(
-            new ListProductsRequest(
-                $query->currency()
-            )
-        );
+        $serviceRequest = new ListProductsRequest($query->currency());
+        $serviceResponse = $this->listProductsService->execute($serviceRequest);
 
-        return new ListProductsQueryResponse(
-            $listProductsResponse->products()
-        );
+        $products = $serviceResponse->products();
+
+        return new ListProductsQueryResponse($products);
     }
 }

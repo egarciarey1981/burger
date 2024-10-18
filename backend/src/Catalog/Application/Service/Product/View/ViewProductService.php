@@ -11,17 +11,17 @@ class ViewProductService extends ProductService
 {
     public function execute(ViewProductRequest $viewProductRequest): ViewProductResponse
     {
-        $product = $this->repository->ofIdAndCurrency(
-            new ProductId($viewProductRequest->productId()),
-            new Currency($viewProductRequest->currency())
-        );
+        $productId = new ProductId($viewProductRequest->productId());
+        $currency = new Currency($viewProductRequest->currency());
 
-        if ($product === null) {
-            throw new ProductNotFoundException('Product of id ' . $viewProductRequest->productId() . ' not found');
+        $productObject = $this->repository->ofIdAndCurrency($productId, $currency);
+
+        if ($productObject === null) {
+            throw new ProductNotFoundException("Product of id `{$viewProductRequest->productId()}` not found");
         }
 
-        return new ViewProductResponse(
-            $product->toArray()
-        );
+        $productArray = $productObject->toArray();
+
+        return new ViewProductResponse($productArray);
     }
 }

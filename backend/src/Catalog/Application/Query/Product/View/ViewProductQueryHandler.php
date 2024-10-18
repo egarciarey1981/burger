@@ -4,8 +4,6 @@ namespace Burger\Catalog\Application\Query\Product\View;
 
 use Burger\Catalog\Application\Service\Product\View\ViewProductRequest;
 use Burger\Catalog\Application\Service\Product\View\ViewProductService;
-use Burger\Catalog\Domain\Model\Currency;
-use Burger\Catalog\Domain\Model\Product\ProductId;
 use Burger\Shared\Domain\Model\Bus\Query\Query;
 use Burger\Shared\Domain\Model\Bus\Query\QueryHandler;
 use Burger\Shared\Domain\Model\Bus\Query\QueryResponse;
@@ -26,15 +24,11 @@ class ViewProductQueryHandler implements QueryHandler
             throw new InvalidArgumentException('Invalid query');
         }
 
-        $viewProductResponse = $this->viewProductService->execute(
-            new ViewProductRequest(
-                $query->productId(),
-                $query->currency()
-            )
-        );
+        $serviceRequest = new ViewProductRequest($query->productId(), $query->currency());
+        $serviceResponse = $this->viewProductService->execute($serviceRequest);
 
-        return new ViewProductResponse(
-            $viewProductResponse->product()
-        );
+        $product = $serviceResponse->product();
+
+        return new ViewProductResponse($product);
     }
 }

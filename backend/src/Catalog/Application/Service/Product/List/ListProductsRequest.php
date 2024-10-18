@@ -6,9 +6,8 @@ class ListProductsRequest
 {
     private string $currency;
 
-    public function __construct(
-        string $currency
-    ) {
+    public function __construct(string $currency)
+    {
         $this->currency = $currency;
     }
 
