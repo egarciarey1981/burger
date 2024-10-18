@@ -5,11 +5,11 @@ namespace Burger\Order\Application\Service\Order;
 use Burger\Catalog\Domain\Model\Product\ProductId;
 use Burger\Catalog\Domain\Model\Product\ProductNotFoundException;
 use Burger\Catalog\Domain\Model\Product\ProductRepository;
-use Burger\Order\Domain\Model\Order\Order;
-use Burger\Order\Domain\Model\Order\OrderDate;
-use Burger\Order\Domain\Model\Order\OrderLine;
-use Burger\Order\Domain\Model\Order\OrderLineQuantity;
-use Burger\Order\Domain\Model\Order\OrderRepository;
+use Burger\Orders\Domain\Model\Order\Order;
+use Burger\Orders\Domain\Model\Order\OrderDate;
+use Burger\Orders\Domain\Model\Order\OrderLine;
+use Burger\Orders\Domain\Model\Order\OrderLineQuantity;
+use Burger\Orders\Domain\Model\Order\OrderRepository;
 use DateTimeImmutable;
 
 class CreateOrderService extends OrderService

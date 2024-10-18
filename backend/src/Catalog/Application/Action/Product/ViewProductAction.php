@@ -12,7 +12,8 @@ class ViewProductAction extends Action
     {
         $viewProductQueryResponse = $this->queryBus->handle(
             new ViewProductQuery(
-                $this->args['id']
+                $this->args['id'],
+                $this->request->getQueryParams()['currency'] ?? 'USD'
             ),
         );
 

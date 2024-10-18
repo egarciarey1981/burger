@@ -2,8 +2,10 @@
 
 namespace Burger\Catalog\Domain\Model\Product;
 
+use Burger\Catalog\Domain\Model\Currency;
+
 interface ProductRepository
 {
-    public function all(): array;
-    public function ofId(ProductId $productId): ?Product;
+    public function findByCurrency(Currency $currency): array;
+    public function ofIdAndCurrency(ProductId $productId, Currency $currency): ?Product;
 }

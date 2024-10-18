@@ -4,6 +4,7 @@ namespace Burger\Catalog\Application\Query\Product\View;
 
 use Burger\Catalog\Application\Service\Product\View\ViewProductRequest;
 use Burger\Catalog\Application\Service\Product\View\ViewProductService;
+use Burger\Catalog\Domain\Model\Currency;
 use Burger\Catalog\Domain\Model\Product\ProductId;
 use Burger\Shared\Domain\Model\Bus\Query\Query;
 use Burger\Shared\Domain\Model\Bus\Query\QueryHandler;
@@ -27,9 +28,8 @@ class ViewProductQueryHandler implements QueryHandler
 
         $viewProductResponse = $this->viewProductService->execute(
             new ViewProductRequest(
-                new ProductId(
-                    $query->productId()
-                )
+                $query->productId(),
+                $query->currency()
             )
         );
 

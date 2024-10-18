@@ -2,9 +2,9 @@
 
 namespace Burger\Catalog\Infrastructure\Persistence\Pdo;
 
+use Burger\Catalog\Domain\Model\Currency;
 use Burger\Catalog\Domain\Model\Price\Price;
 use Burger\Catalog\Domain\Model\Price\PriceAmount;
-use Burger\Catalog\Domain\Model\Price\PriceCurrency;
 use Burger\Catalog\Domain\Model\Product\Product;
 use Burger\Catalog\Domain\Model\Product\ProductCategory;
 use Burger\Catalog\Domain\Model\Product\ProductId;
@@ -14,10 +14,11 @@ use Burger\Shared\Infrastructure\Persistence\Pdo\PdoRepository;
 
 class PdoProductRepository extends PdoRepository implements ProductRepository
 {
-    public function all(): array
+    public function findByCurrency(Currency $currency): array
     {
-        $sql = 'SELECT * FROM products';
-        $stmt = $this->pdo->query($sql);
+        $sql = 'SELECT * FROM products WHERE product_price_currency = :currency';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['currency' => $currency->value()]);
         $rows = $stmt->fetchAll();
 
         $products = [];
@@ -28,7 +29,7 @@ class PdoProductRepository extends PdoRepository implements ProductRepository
                 new ProductCategory($row['product_category']),
                 new Price(
                     new PriceAmount($row['product_price_amount']),
-                    new PriceCurrency($row['product_price_currency'])
+                    new Currency($row['product_price_currency'])
                 )
             );
         }
@@ -36,11 +37,11 @@ class PdoProductRepository extends PdoRepository implements ProductRepository
         return $products;
     }
 
-    public function ofId(ProductId $productId): ?Product
+    public function ofIdAndCurrency(ProductId $productId, Currency $currency): ?Product
     {
-        $sql = 'SELECT * FROM products WHERE product_id = :id';
+        $sql = 'SELECT * FROM products WHERE product_id = :id AND product_price_currency = :currency';
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['product_id' => $productId->value()]);
+        $stmt->execute(['id' => $productId->value(), 'currency' => $currency->value()]);
         $row = $stmt->fetch();
 
         if ($row === false) {
@@ -53,7 +54,7 @@ class PdoProductRepository extends PdoRepository implements ProductRepository
             new ProductCategory($row['product_category']),
             new Price(
                 new PriceAmount($row['product_price_amount']),
-                new PriceCurrency($row['product_price_currency'])
+                new Currency($row['product_price_currency'])
             )
         );
     }

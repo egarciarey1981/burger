@@ -2,9 +2,9 @@
 
 namespace Burger\Catalog\Infrastructure\Persistence\InMemory;
 
+use Burger\Catalog\Domain\Model\Currency;
 use Burger\Catalog\Domain\Model\Price\Price;
 use Burger\Catalog\Domain\Model\Price\PriceAmount;
-use Burger\Catalog\Domain\Model\Price\PriceCurrency;
 use Burger\Catalog\Domain\Model\Product\Product;
 use Burger\Catalog\Domain\Model\Product\ProductCategory;
 use Burger\Catalog\Domain\Model\Product\ProductId;
@@ -24,15 +24,17 @@ class InMemoryProductRepository implements ProductRepository
         }
     }
 
-    public function all(): array
+    public function findByCurrency(Currency $currency): array
     {
-        return $this->products;
+        return array_filter($this->products, function (Product $product) use ($currency) {
+            return $product->price()->currency()->equals($currency);
+        });
     }
 
-    public function ofId(ProductId $productId): ?Product
+    public function ofIdAndCurrency(ProductId $productId, Currency $currency): ?Product
     {
         foreach ($this->products as $product) {
-            if ($product->id()->equals($productId)) {
+            if ($product->id()->equals($productId) && $product->price()->currency()->equals($currency)) {
                 return $product;
             }
         }
@@ -50,6 +52,15 @@ class InMemoryProductRepository implements ProductRepository
                 'price' => [
                     'amount' => 5.0,
                     'currency' => 'USD',
+                ],
+            ],
+            [
+                'id' => 'burger',
+                'name' => 'Burger',
+                'category' => 'Burgers',
+                'price' => [
+                    'amount' => 5.0,
+                    'currency' => 'EUR',
                 ],
             ],
             [
@@ -124,7 +135,7 @@ class InMemoryProductRepository implements ProductRepository
                 new ProductCategory($item['category']),
                 new Price(
                     new PriceAmount($item['price']['amount']),
-                    new PriceCurrency($item['price']['currency'])
+                    new Currency($item['price']['currency'])
                 ),
             );
         }

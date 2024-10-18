@@ -11,7 +11,9 @@ class ListProductsAction extends Action
     public function action(): Response
     {
         $listProductsQueryResponse = $this->queryBus->handle(
-            new ListProductsQuery()
+            new ListProductsQuery(
+                $this->request->getQueryParams()['currency'] ?? 'USD'
+            )
         );
 
         $this->logger->info('Products was viewed.');

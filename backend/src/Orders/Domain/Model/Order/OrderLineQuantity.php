@@ -1,6 +1,6 @@
 <?php
 
-namespace Burger\Order\Domain\Model\Order;
+namespace Burger\Orders\Domain\Model\Order;
 
 use Burger\Shared\Domain\Model\ValueObject\IntValueObject;
 

@@ -2,7 +2,7 @@
 
 namespace Burger\Order\Application\Service\Order;
 
-use Burger\Order\Domain\Model\Order\OrderRepository;
+use Burger\Orders\Domain\Model\Order\OrderRepository;
 
 class OrderService
 {

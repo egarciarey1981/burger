@@ -2,16 +2,17 @@
 
 namespace Burger\Catalog\Domain\Model\Price;
 
+use Burger\Catalog\Domain\Model\Currency;
 use InvalidArgumentException;
 
 class Price
 {
     private PriceAmount $amount;
-    private PriceCurrency $currency;
+    private Currency $currency;
 
     public function __construct(
         PriceAmount $amount,
-        PriceCurrency $currency,
+        Currency $currency,
     ) {
         $this->amount = $amount;
         $this->currency = $currency;
@@ -22,7 +23,7 @@ class Price
         return $this->amount;
     }
 
-    public function currency(): PriceCurrency
+    public function currency(): Currency
     {
         return $this->currency;
     }

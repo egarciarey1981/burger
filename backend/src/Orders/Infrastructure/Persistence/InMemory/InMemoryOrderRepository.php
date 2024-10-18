@@ -1,10 +1,10 @@
 <?php
 
-namespace Burger\Order\Infrastructure\Persistence\InMemory;
+namespace Burger\Orders\Infrastructure\Persistence\InMemory;
 
-use Burger\Order\Domain\Model\Order\Order;
-use Burger\Order\Domain\Model\Order\OrderId;
-use Burger\Order\Domain\Model\Order\OrderRepository;
+use Burger\Orders\Domain\Model\Order\Order;
+use Burger\Orders\Domain\Model\Order\OrderId;
+use Burger\Orders\Domain\Model\Order\OrderRepository;
 
 class InMemoryOrderRepository implements OrderRepository
 {

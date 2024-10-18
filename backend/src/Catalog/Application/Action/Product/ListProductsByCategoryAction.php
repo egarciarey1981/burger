@@ -11,7 +11,10 @@ class ListProductsByCategoryAction extends Action
     public function action(): Response
     {
         $listProductsGroupedByKeyQueryResponse = $this->queryBus->handle(
-            new ListProductsGroupedByKeyQuery('category')
+            new ListProductsGroupedByKeyQuery(
+                'category',
+                $this->request->getQueryParams()['currency'] ?? 'USD'
+            )
         );
 
         $this->logger->info('Products grouped by category was viewed.');
